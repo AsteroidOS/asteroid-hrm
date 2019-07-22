@@ -27,9 +27,9 @@ Application {
 
     property int bpm: 0;
 
-    Hrm {
+    HrmSensor {
         active: true
-        onReadingChanged: bpm = reading.bpm;
+        onReadingChanged: app.bpm = reading.bpm;
         onStatusChanged: console.log("status changed to: " + str(status))
     }
 
@@ -37,6 +37,6 @@ Application {
         id: bpmText
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
-        text: bpm
+        text: app.bpm
     }
 }
