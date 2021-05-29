@@ -20,6 +20,7 @@ ecm_find_qmlmodule(org.asteroid.controls 1.0)
 
 add_subdirectory(src)
 
+build_translations(i18n)
 generate_desktop(${CMAKE_SOURCE_DIR} asteroid-hrm)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -37,6 +37,6 @@ Application {
         id: bpmText
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
-        text: app.bpm
+        text: app.bpm > 0 ? app.bpm : qsTrId("id-measuring")
     }
 }
