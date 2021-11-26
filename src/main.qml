@@ -25,8 +25,8 @@ import Nemo.KeepAlive 1.1
 Application {
     id: app
 
-    centerColor: "#b04d1c"
-    outerColor: "#421c0a"
+    centerColor: "#8d92aa"
+    outerColor: "#004080"
 
     readonly property real arcStartOffset: -181
     readonly property real arcGapHeart: 52
