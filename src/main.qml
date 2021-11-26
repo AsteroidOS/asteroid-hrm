@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2019 Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2021 Timo Könnecke <github.com/eLtMosen>
+ *               2021 Darrel Griët <dgriet@gmail.com>
+ *               2019 Florent Revest <revestflo@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +19,6 @@
 
 import QtQuick 2.9
 import QtSensors 5.11
-import QtGraphicalEffects 1.15
 import org.asteroid.controls 1.0
 import Nemo.KeepAlive 1.1
 
@@ -30,24 +31,24 @@ Application {
     readonly property real arcStartOffset: -181
     readonly property real arcGapHeart: 52
 
+    property int bpm: 0
+    property int lastBpm: 0
+    property bool pulseToggle: true
     property real arcBpmGap: app.lastBpm > 0 ? 28 : 0
     property real arcBpmOffset: app.lastBpm > app.bpm ? 75 : 15
-
+    property real arcEnd: arcStart
+    property real arcStart: arcStartOffset + arcGapHeart/2 - pulseWidthArc
     property real pulseAnimationDuration: app.bpm === 0 ?
                          100 :
                          1000 / (app.bpm / 20)
+
     property real arcAnimationDuration: app.bpm === 0 ?
                          30000 :
                          1000 / (app.bpm / 20)
 
-
-    property real arcEnd: arcStart
-    property real arcStart: arcStartOffset + arcGapHeart/2 - pulseWidthArc
-    property int bpm: 0
-    property int lastBpm: 0
-    property real lastBpmAngle: app.lastBpm > app.bpm ? 30 : -30
-    property bool pulseToggle: true
-
+    property real lastBpmAngle: app.lastBpm > app.bpm ?
+                                    30 :
+                                    -30
     property int pulseWidthArc: pulseToggle ?
                                  0 :
                                  -6
@@ -56,9 +57,6 @@ Application {
                                  app.height * 0.26
 
     onArcEndChanged: canvas.requestPaint()
-    onBpmChanged: {
-        app.arcEnd = Qt.binding(function() { return arcStartOffset + (360 - arcGapHeart) + 28 + pulseWidthArc })
-    }
 
     HrmSensor {
         active: true
@@ -76,7 +74,6 @@ Application {
         interval: 1000 / (app.bpm / 30)
         running: app.bpm
         repeat: true
-        //triggeredOnStart: true
         onTriggered: pulseToggle ?
                          pulseToggle = false :
                          pulseToggle = true
@@ -132,9 +129,10 @@ Application {
                             app.height*0.06
         text: app.bpm > 0 ?
                   app.bpm :
+                  //% "Measuring..."
                   qsTrId("id-measuring")
         Timer {
-            id: timer
+            id: blinkTimer
             interval: 800
             running: true
             repeat: app.bpm === 0
@@ -145,7 +143,6 @@ Application {
                              bpmText.opacity = 1
         }
         Behavior on opacity { NumberAnimation { duration: 600; easing.type: Easing.OutQuad } }
-
     }
 
     Text {
@@ -173,7 +170,6 @@ Application {
             }
             font.family: "Source Sans Pro"
             font.pixelSize: app.height * 0.07
-            opacity: 1
             color: "#6638FF12"
             text: lastBpm > 0 ? "\u25B6" : ""
         }
@@ -198,8 +194,6 @@ Application {
             verticalCenterOffset: app.height * 0.31
         }
         font.pixelSize: pulseWidth
-        opacity: 1
-        color: "red"
         text: "\u2764"
         Text {
             anchors {
@@ -216,6 +210,6 @@ Application {
     Component.onCompleted: {
         DisplayBlanking.preventBlanking = true
 
-        app.arcEnd = arcStartOffset + (360 - arcGapHeart) + 28 + pulseWidthArc
+        app.arcEnd = Qt.binding(function() { return arcStartOffset + (360 - arcGapHeart) + 28 + pulseWidthArc })
     }
 }
