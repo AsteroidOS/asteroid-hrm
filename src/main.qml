@@ -129,7 +129,7 @@ Application {
                             app.height*0.06
         text: app.bpm > 0 ?
                   app.bpm :
-                  //% "Measuring..."
+                  //% "Measuring…"
                   qsTrId("id-measuring")
         Timer {
             id: blinkTimer
