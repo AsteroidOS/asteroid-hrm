@@ -4,14 +4,14 @@
 <context>
     <name></name>
     <message id="id-measuring">
-        <location filename="../src/main.qml" line="41"/>
+        <location filename="../src/main.qml" line="133"/>
         <source>Measuring...</source>
         <translation>Meten...</translation>
     </message>
     <message id="id-app-launcher-name">
         <location filename="asteroid-hrm.desktop.h" line="6"/>
-        <source>Heart Rate Monitor</source>
-        <translation type="unfinished"></translation>
+        <source>Heart Rate</source>
+        <translation>Hartslag</translation>
     </message>
 </context>
 </TS>
