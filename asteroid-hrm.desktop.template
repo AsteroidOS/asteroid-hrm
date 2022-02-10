@@ -3,5 +3,5 @@ Type=Application
 Categories=Applications;
 Exec=invoker --single-instance --type=qtcomponents-qt5 /usr/bin/asteroid-hrm
 Icon=ios-pulse-outline
-X-Asteroid-Center-Color=#8d92aa
-X-Asteroid-Outer-Color=#004080
+X-Asteroid-Center-Color=#0097A6
+X-Asteroid-Outer-Color=#00060C
