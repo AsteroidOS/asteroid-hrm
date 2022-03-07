@@ -128,6 +128,7 @@ Application {
                                 app.height*0.29 :
                                 app.height*0.33 :
                             app.height*0.06
+        font.styleName: app.bpm / 100 >= 1 ? "SemiCondensed" : ""
         text: app.bpm > 0 ?
                   app.bpm :
                   //% "Measuring…"
