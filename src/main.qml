@@ -57,6 +57,7 @@ Application {
                                  app.height * 0.26
 
     onArcEndChanged: canvas.requestPaint()
+    onArcBpmOffsetChanged: canvas.requestPaint()
 
     HrmSensor {
         active: true
@@ -79,7 +80,7 @@ Application {
                          pulseToggle = true
     }
 
-    Behavior on arcBpmGap { NumberAnimation { duration: 100; easing.type: Easing.Linear} }
+    Behavior on arcBpmGap { NumberAnimation { duration: 100; easing.type: Easing.OutCirc} }
     Behavior on arcBpmOffset { NumberAnimation { duration: 1000; easing.type: Easing.OutCirc } }
     Behavior on arcEnd { NumberAnimation { duration: arcAnimationDuration; easing.type: app.lastBpm === 0 ? Easing.Linear : Easing.OutInSine } }
     Behavior on arcStart { NumberAnimation { duration: arcAnimationDuration; easing.type: app.lastBpm === 0 ? Easing.Linear : Easing.OutInSine } }
@@ -123,10 +124,11 @@ Application {
                                 -app.width * 0.008 :
                                 0
         font.pixelSize: app.bpm > 0 ?
-                            app.bpm / 100 >= 1 ?
+                            app.bpm >= 100 ?
                                 app.height*0.29 :
                                 app.height*0.33 :
                             app.height*0.06
+        font.styleName: app.bpm >= 100 ? "SemiCondensed" : ""
         text: app.bpm > 0 ?
                   app.bpm :
                   //% "Measuring…"
