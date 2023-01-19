@@ -20,6 +20,7 @@
 import QtQuick 2.9
 import QtSensors 5.11
 import org.asteroid.controls 1.0
+import org.asteroid.utils 1.0
 import Nemo.KeepAlive 1.1
 
 Application {
@@ -52,9 +53,7 @@ Application {
     property int pulseWidthArc: pulseToggle ?
                                  0 :
                                  -6
-    property int pulseWidth: pulseToggle ?
-                                 app.height * 0.20 :
-                                 app.height * 0.26
+    property int pulseWidth: pulseToggle ? Dims.h(20) : Dims.h(26)
 
     onArcEndChanged: canvas.requestPaint()
     onArcBpmOffsetChanged: canvas.requestPaint()
@@ -85,128 +84,132 @@ Application {
     Behavior on arcEnd { NumberAnimation { duration: arcAnimationDuration; easing.type: app.lastBpm === 0 ? Easing.Linear : Easing.OutInSine } }
     Behavior on arcStart { NumberAnimation { duration: arcAnimationDuration; easing.type: app.lastBpm === 0 ? Easing.Linear : Easing.OutInSine } }
     Behavior on pulseWidth { NumberAnimation { duration: pulseAnimationDuration; easing.type: Easing.OutInSine } }
-
-    Canvas {
-        id: canvas
-        anchors.fill: parent
-        rotation: -90
-        opacity: 0.4
-        onPaint: {
-            var ctx = getContext("2d")
-            var x = app.width / 2
-            var y = app.height / 2
-            var start = Math.PI * (arcStart / 180)
-            var end = Math.PI * (arcEnd / 180)
-            var gap1 = Math.PI * ((arcStartOffset + arcBpmOffset + 45 - arcBpmGap/2) / 180)
-            var gap2 = Math.PI * ((arcStartOffset + arcBpmOffset + 45 + arcBpmGap/2) / 180)
-
-            if (gap1 > end) gap1 = end
-            if (gap2 > end) gap2 = end
-
-            ctx.reset()
-            ctx.beginPath()
-            ctx.lineCap = "round"
-            ctx.lineWidth = app.height * 0.034
-            ctx.strokeStyle = "#38FF12"
-            ctx.arc(x, y, (app.width / 2.9), start, gap1, false)
-            ctx.stroke()
-            ctx.beginPath()
-            ctx.arc(x, y, (app.width / 2.9), gap2, end, false)
-            ctx.stroke()
-        }
-    }
-
-    Label {
-        id: bpmText
-        anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter
-        font.letterSpacing: app.bpm > 0 ?
-                                -app.width * 0.008 :
-                                0
-        font.pixelSize: app.bpm > 0 ?
-                            app.bpm >= 100 ?
-                                app.height*0.29 :
-                                app.height*0.33 :
-                            app.height*0.06
-        font.styleName: app.bpm >= 100 ? "SemiCondensed" : ""
-        text: app.bpm > 0 ?
-                  app.bpm :
-                  //% "Measuring…"
-                  qsTrId("id-measuring")
-        Timer {
-            id: blinkTimer
-            interval: 800
-            running: true
-            repeat: app.bpm === 0
-            onTriggered: app.bpm === 0 ?
-                             bpmText.opacity = bpmText.opacity === 0 ?
-                                 1 :
-                                 0 :
-                             bpmText.opacity = 1
-        }
-        Behavior on opacity { NumberAnimation { duration: 600; easing.type: Easing.OutQuad } }
-    }
-
-    Text {
-        id: lastBpmText
-        z: 2
-        color: "#ffffff"
+    Item {
+        height: Dims.h(100)
+        width: Dims.w(100)
         anchors {
-            horizontalCenter: app.horizontalCenter
-            horizontalCenterOffset: -app.width * 0.345
-            verticalCenter: app.verticalCenter
+            centerIn: parent
+            verticalCenterOffset: DeviceInfo.flatTireHeight/2
         }
-        font.letterSpacing: -heartPicture.width * 0.0018
-        font.pixelSize: app.height*0.086
-        font.styleName: "Bold"
-        text: app.lastBpm > 0 ?
-                  app.lastBpm :
-                  ""
-        Text {
-            id: arrowShape
-            z: 1
-            anchors{
-                left: lastBpmText.right
-                leftMargin: app.width * 0.02
-                verticalCenter: lastBpmText.verticalCenter
+
+        Canvas {
+            id: canvas
+            anchors.fill: parent
+            rotation: -90
+            opacity: 0.4
+            onPaint: {
+                var ctx = getContext("2d")
+                var x = Dims.w(50)
+                var y = Dims.h(50)
+                var start = Math.PI * (arcStart / 180)
+                var end = Math.PI * (arcEnd / 180)
+                var gap1 = Math.PI * ((arcStartOffset + arcBpmOffset + 45 - arcBpmGap/2) / 180)
+                var gap2 = Math.PI * ((arcStartOffset + arcBpmOffset + 45 + arcBpmGap/2) / 180)
+
+                if (gap1 > end) gap1 = end
+                if (gap2 > end) gap2 = end
+
+                ctx.reset()
+                ctx.beginPath()
+                ctx.lineCap = "round"
+                ctx.lineWidth = Dims.h(3.4)
+                ctx.strokeStyle = "#38FF12"
+                ctx.arc(x, y, (Dims.w(100) / 2.9), start, gap1, false)
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.arc(x, y, (Dims.w(100) / 2.9), gap2, end, false)
+                ctx.stroke()
             }
-            font.family: "Source Sans Pro"
-            font.pixelSize: app.height * 0.07
-            color: "#6638FF12"
-            text: lastBpm > 0 ? "\u25B6" : ""
         }
-        transform: Rotation {
-            origin.x: (app.width * 0.345) + (lastBpmText.width * 0.5)
-            origin.y: lastBpmText.height * 0.5
-            angle: lastBpmAngle
-            Behavior on angle {
-                NumberAnimation {
-                    duration: 1000
-                    easing.type: Easing.OutCirc
+
+        Label {
+            id: bpmText
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            font.letterSpacing: app.bpm > 0 ? -Dims.w(0.8) : 0
+            font.pixelSize: app.bpm > 0 ?
+                                app.bpm >= 100 ?
+                                    Dims.h(29) :
+                                    Dims.h(33) :
+                                Dims.h(6)
+            font.styleName: app.bpm >= 100 ? "SemiCondensed" : ""
+            text: app.bpm > 0 ?
+                    app.bpm :
+                    //% "Measuring…"
+                    qsTrId("id-measuring")
+            Timer {
+                id: blinkTimer
+                interval: 800
+                running: true
+                repeat: app.bpm === 0
+                onTriggered: app.bpm === 0 ?
+                                bpmText.opacity = bpmText.opacity === 0 ?
+                                    1 :
+                                    0 :
+                                bpmText.opacity = 1
+            }
+            Behavior on opacity { NumberAnimation { duration: 600; easing.type: Easing.OutQuad } }
+        }
+
+        Text {
+            id: lastBpmText
+            z: 2
+            color: "#ffffff"
+            anchors {
+                centerIn: parent
+                horizontalCenterOffset: -Dims.w(34.5)
+            }
+            font.letterSpacing: -heartPicture.width * 0.0018
+            font.pixelSize: Dims.h(8.6)
+            font.styleName: "Bold"
+            text: app.lastBpm > 0 ?
+                    app.lastBpm :
+                    ""
+            Text {
+                id: arrowShape
+                z: 1
+                anchors{
+                    left: lastBpmText.right
+                    leftMargin: Dims.w(2)
+                    verticalCenter: lastBpmText.verticalCenter
+                }
+                font.family: "Source Sans Pro"
+                font.pixelSize: Dims.h(7)
+                color: "#6638FF12"
+                text: lastBpm > 0 ? "\u25B6" : ""
+            }
+            transform: Rotation {
+                origin.x: (Dims.w(34.5)) + (lastBpmText.width * 0.5)
+                origin.y: lastBpmText.height * 0.5
+                angle: lastBpmAngle
+                Behavior on angle {
+                    NumberAnimation {
+                        duration: 1000
+                        easing.type: Easing.OutCirc
+                    }
                 }
             }
         }
-    }
 
-    Text {
-        id: heartPicture
-        anchors{
-            horizontalCenter: app.horizontalCenter
-            verticalCenter: app.verticalCenter
-            verticalCenterOffset: app.height * 0.31
-        }
-        font.pixelSize: pulseWidth
-        text: "\u2764"
         Text {
-            anchors {
-                centerIn: heartPicture
-                verticalCenterOffset: heartPicture.height * 0.018
+            id: heartPicture
+            anchors{
+                centerIn: parent
+                verticalCenterOffset: Dims.h(31)
             }
-            font.pixelSize: heartPicture.height * 0.22
-            font.letterSpacing: -heartPicture.width * 0.004
-            font.styleName: "Bold"
-            color: "#ffffffff"
-            text: "bpm"
+            font.pixelSize: pulseWidth
+            text: "\u2764"
+            Text {
+                anchors {
+                    centerIn: parent
+                    verticalCenterOffset: heartPicture.height * 0.018
+                }
+                font.pixelSize: heartPicture.height * 0.22
+                font.letterSpacing: -heartPicture.width * 0.004
+                font.styleName: "Bold"
+                color: "#ffffffff"
+                text: "bpm"
+            }
         }
     }
     Component.onCompleted: {
