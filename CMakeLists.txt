@@ -20,6 +20,13 @@ ecm_find_qmlmodule(org.asteroid.controls 1.0)
 
 add_subdirectory(src)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/asteroid-hrm.in
+	${CMAKE_BINARY_DIR}/asteroid-hrm
+	@ONLY)
+
+install(PROGRAMS ${CMAKE_BINARY_DIR}/asteroid-hrm
+	DESTINATION ${CMAKE_INSTALL_BINDIR})
+
 build_translations(i18n)
 generate_desktop(${CMAKE_SOURCE_DIR} asteroid-hrm)
 
