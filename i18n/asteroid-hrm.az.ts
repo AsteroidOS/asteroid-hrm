@@ -11,7 +11,7 @@
     <message id="id-app-launcher-name">
         <location filename="asteroid-hrm.desktop.h" line="6"/>
         <source>Heart Rate</source>
-        <translation>Ürək Döyüntüsü sürəti</translation>
+        <translation>Ürək Döyüntü Sürəti</translation>
     </message>
 </context>
 </TS>
