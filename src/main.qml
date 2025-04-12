@@ -89,7 +89,7 @@ Application {
         width: Dims.w(100)
         anchors {
             centerIn: parent
-            verticalCenterOffset: DeviceInfo.flatTireHeight/2
+            verticalCenterOffset: DeviceSpecs.flatTireHeight/2
         }
 
         Canvas {
