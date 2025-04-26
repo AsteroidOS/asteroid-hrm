@@ -6,7 +6,7 @@
     <message id="id-measuring">
         <location filename="../src/main.qml" line="133"/>
         <source>Measuring...</source>
-        <translation>नाप रहा है...</translation>
+        <translation>मापा जा रहा है..।</translation>
     </message>
     <message id="id-app-launcher-name">
         <location filename="asteroid-hrm.desktop.h" line="6"/>
