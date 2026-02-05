@@ -2,6 +2,6 @@
 Type=Application
 Categories=Applications;
 Exec=asteroid-hrm
-Icon=ios-pulse-outline
+Icon=ios-heart-outline
 X-Asteroid-Center-Color=#0097A6
 X-Asteroid-Outer-Color=#00060C
