@@ -6,12 +6,12 @@
     <message id="id-measuring">
         <location filename="../src/main.qml" line="133"/>
         <source>Measuring...</source>
-        <translation>Duke matur.</translation>
+        <translation>Po matet…</translation>
     </message>
     <message id="id-app-launcher-name">
         <location filename="asteroid-hrm.desktop.h" line="6"/>
         <source>Heart Rate</source>
-        <translation>Pulsi i Zemrës</translation>
+        <translation>Puls</translation>
     </message>
 </context>
 </TS>
