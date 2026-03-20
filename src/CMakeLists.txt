@@ -4,7 +4,7 @@ set_target_properties(asteroid-hrm PROPERTIES PREFIX "")
 target_link_libraries(
 	asteroid-hrm
 	PUBLIC
-		AsteroidApp
+		Asteroid::AsteroidApp6
 )
 
 install(

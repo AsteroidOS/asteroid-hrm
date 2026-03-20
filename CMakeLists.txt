@@ -7,18 +7,20 @@ project(
 )
 
 find_package(ECM REQUIRED NO_MODULE)
-find_package(AsteroidApp REQUIRED)
+find_package(AsteroidApp6 REQUIRED)
 
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ASTEROID_MODULE_PATH})
 
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(ECMFindQmlModule)
-include(AsteroidCMakeSettings)
-include(AsteroidTranslations)
+include(Asteroid6CMakeSettings)
+include(Asteroid6Translations)
 
-ecm_find_qmlmodule(QtSensors 5.11)
-ecm_find_qmlmodule(org.asteroid.controls 1.0)
+ecm_find_qmlmodule(QtSensors 6.10 REQUIRED)
+ecm_find_qmlmodule(org.asteroid.controls 1.0 REQUIRED)
+ecm_find_qmlmodule(org.asteroid.utils 1.0 REQUIRED)
+ecm_find_qmlmodule(Nemo.KeepAlive 1.1 REQUIRED)
 
 add_subdirectory(src)
 
