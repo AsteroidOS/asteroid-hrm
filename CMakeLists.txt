@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(asteroid-hrm
-	VERSION 0.0.1
+	VERSION 2.0
 	DESCRIPTION "Demo app for heart-rate-monitor bpm retrieval")
 
 find_package(ECM REQUIRED NO_MODULE)
