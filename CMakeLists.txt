@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.6.0)
 
-project(asteroid-hrm
+project(
+	asteroid-hrm
 	VERSION 2.0
-	DESCRIPTION "Demo app for heart-rate-monitor bpm retrieval")
+	DESCRIPTION "Demo app for heart-rate-monitor bpm retrieval"
+)
 
 find_package(ECM REQUIRED NO_MODULE)
 find_package(AsteroidApp REQUIRED)
@@ -20,12 +22,16 @@ ecm_find_qmlmodule(org.asteroid.controls 1.0)
 
 add_subdirectory(src)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/asteroid-hrm.in
+configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/asteroid-hrm.in
 	${CMAKE_BINARY_DIR}/asteroid-hrm
-	@ONLY)
+	@ONLY
+)
 
-install(PROGRAMS ${CMAKE_BINARY_DIR}/asteroid-hrm
-	DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(
+	PROGRAMS ${CMAKE_BINARY_DIR}/asteroid-hrm
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
 build_translations(i18n)
 generate_desktop(${CMAKE_SOURCE_DIR} asteroid-hrm)
